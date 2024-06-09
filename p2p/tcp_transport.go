@@ -12,6 +12,7 @@ import (
 type TCPPeer struct {
 	// The underlying connection of the peer. Which in this case
 	// is a TCP connection.
+	// this is an interface  generally produced by a Accept function
 	net.Conn
 	// if we dial and retrieve a conn => outbound == true
 	// if we accept and retrieve a conn => outbound == false
