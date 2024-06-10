@@ -16,6 +16,7 @@ func (dec GOBDecoder) Decode(r io.Reader, msg *RPC) error {
 }
 
 //  这里的业务逻辑： 定义了一个Decoder的interface | 接下来的自定义类型 实现了这个接口  就可以当做这个接口使用：--解耦--多态--
+// 将Reader读取的内容放到 msg中
 
 type DefaultDecoder struct{}
 
