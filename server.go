@@ -22,6 +22,12 @@ type FileServerOpts struct {
 	BootstrapNodes    []string
 }
 
+// A FileServer needs the incoming Opts, which consists of some object necessary for running
+// and the peerLock to support the concurrent? function,
+// also record the peers ?  -- but what is actually a peer//
+// and the store for storing  ? actually for what
+// quitch -> to be used as a signel indicating for stopping  ?  chan struct   what is it   chan + [type]
+
 type FileServer struct {
 	FileServerOpts
 

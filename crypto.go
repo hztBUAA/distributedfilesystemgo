@@ -20,8 +20,10 @@ func hashKey(key string) string {
 	return hex.EncodeToString(hash[:])
 }
 
+// rand.Reader will get a 32 byte random to a keybuf | 32 B -> 256 bit
 func newEncryptionKey() []byte {
 	keyBuf := make([]byte, 32)
+	// always assume that rand.Reader will have bigger enough data for filling the keybuf
 	io.ReadFull(rand.Reader, keyBuf)
 	return keyBuf
 }

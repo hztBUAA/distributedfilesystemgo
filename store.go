@@ -13,6 +13,7 @@ import (
 
 const defaultRootFolderName = "ggnetwork"
 
+// 如果 key 的哈希值为 "abcdef1234567890"，那么生成的 PathName 将是 "abcde/f1234/56789/0"，Filename 将是 "abcdef1234567890"
 func CASPathTransformFunc(key string) PathKey {
 	hash := sha1.Sum([]byte(key))
 	hashStr := hex.EncodeToString(hash[:])
