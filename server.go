@@ -135,7 +135,7 @@ func (s *FileServer) Store(key string, r io.Reader) error {
 		tee        = io.TeeReader(r, fileBuffer)
 	)
 
-	size, err := s.store.Write(s.ID, key, tee)
+	size, err := s.store.Write(s.ID, key, tee)//写入到本地读取  tee -> local
 	if err != nil {
 		return err
 	}
@@ -154,13 +154,16 @@ func (s *FileServer) Store(key string, r io.Reader) error {
 
 	time.Sleep(time.Millisecond * 5)
 
+	// regard the peers as the slice of io.Writer
 	peers := []io.Writer{}
 	for _, peer := range s.peers {
 		peers = append(peers, peer)
 	}
+	// integrate the slice to a multi-writer
 	mw := io.MultiWriter(peers...)
+	// this is a initital stream to indicate    | q: what is the difference between Message and Stream
 	mw.Write([]byte{p2p.IncomingStream})
-	n, err := copyEncrypt(s.EncKey, fileBuffer, mw)
+	n, err := copyEncrypt(s.EncKey, fileBuffer, mw) // this func is implemented by yourself; would encrypt the file and write into all peers in the multi-writer
 	if err != nil {
 		return err
 	}
