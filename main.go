@@ -31,7 +31,7 @@ func makeServer(listenAddr string, nodes ...string) *FileServer {
 	}
 
 	s := NewFileServer(fileServerOpts)
-
+	fmt.Printf("[%s] my ID is : [%s]\n", s.Transport.Addr(), s.FileServerOpts.ID)
 	tcpTransport.OnPeer = s.OnPeer
 
 	return s

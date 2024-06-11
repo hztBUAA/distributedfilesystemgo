@@ -82,6 +82,8 @@ func NewStore(opts StoreOpts) *Store {
 	}
 }
 
+
+// file's id can be transformed into a PathKey, which contains the path and the filename
 func (s *Store) Has(id string, key string) bool {
 	pathKey := s.PathTransformFunc(key)
 	fullPathWithRoot := fmt.Sprintf("%s/%s/%s", s.Root, id, pathKey.FullPath())
@@ -106,6 +108,7 @@ func (s *Store) Delete(id string, key string) error {
 	return os.RemoveAll(firstPathNameWithRoot)
 }
 
+// here, id and key is originated from msg got from rpc from other peer nodes
 func (s *Store) Write(id string, key string, r io.Reader) (int64, error) {
 	return s.writeStream(id, key, r)
 }
@@ -119,6 +122,7 @@ func (s *Store) WriteDecrypt(encKey []byte, id string, key string, r io.Reader) 
 	return int64(n), err
 }
 
+// firstly create the directory | then create the file
 func (s *Store) openFileForWriting(id string, key string) (*os.File, error) {
 	pathKey := s.PathTransformFunc(key)
 	pathNameWithRoot := fmt.Sprintf("%s/%s/%s", s.Root, id, pathKey.PathName)
@@ -131,11 +135,13 @@ func (s *Store) openFileForWriting(id string, key string) (*os.File, error) {
 	return os.Create(fullPathWithRoot)
 }
 
+//
 func (s *Store) writeStream(id string, key string, r io.Reader) (int64, error) {
 	f, err := s.openFileForWriting(id, key)
 	if err != nil {
 		return 0, err
 	}
+	
 	return io.Copy(f, r)
 }
 

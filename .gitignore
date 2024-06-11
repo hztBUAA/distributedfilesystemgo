@@ -1,1 +1,19 @@
 bin
+/*_network/
+
+
+# 关于 .gitignore 的常见写法，以下是一些例子：
+
+# *.log：忽略所有 .log 结尾的文件
+# /tmp：只忽略根目录下的 tmp 文件或文件夹，不忽略子目录下的 tmp 文件或文件夹
+# debug/：忽略所有名为 debug 的文件夹，以及它们下面的所有文件
+# **/debug：忽略所有名为 debug 的文件或文件夹，无论它们在仓库的哪个位置
+# doc/*.txt：忽略 doc 文件夹下所有 .txt 结尾的文件
+# doc/**/*.txt：忽略 doc 文件夹及其所有子文件夹下的 .txt 结尾的文件
+# !lib.a：不忽略 lib.a 文件，即使之前的规则可能会忽略它
+# *.a !lib.a：忽略所有 .a 结尾的文件，但不忽略 lib.a
+# /TODO：只忽略根目录下的 TODO 文件，不忽略 src/TODO 等其他位置的文件
+# build/：忽略 build/ 文件夹及其下的所有文件
+# doc/frotz/：忽略 doc/frotz/ 文件夹及其下的所有文件
+# doc/frotz/*.txt：忽略 doc/frotz/ 文件夹下所有 .txt 结尾的文件
+# doc/**/*.pdf：忽略 doc/ 文件夹及其所有子文件夹下的 .pdf 文件

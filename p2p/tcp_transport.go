@@ -7,6 +7,9 @@ import (
 	"net"
 	"sync"
 )
+// TCP 多用到go的协程实现shell的机制
+
+
 
 // TCPPeer represents the remote node over a TCP established connection.
 type TCPPeer struct {
@@ -102,6 +105,8 @@ func (t *TCPTransport) ListenAndAccept() error {
 	return nil
 }
 
+
+// accept外面来的链接 outbound is false
 func (t *TCPTransport) startAcceptLoop() {
 	for {
 		conn, err := t.listener.Accept()

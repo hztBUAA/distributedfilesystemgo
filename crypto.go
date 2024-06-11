@@ -65,7 +65,7 @@ func copyDecrypt(key []byte, src io.Reader, dst io.Writer) (int, error) {
 	if _, err := src.Read(iv); err != nil {
 		return 0, err
 	}
-
+	// based on the block and the iv, create the stream, which is used for encrypting the content read from src, and write into dst(adopting the xor)
 	stream := cipher.NewCTR(block, iv)
 	return copyStream(stream, block.BlockSize(), src, dst)
 }

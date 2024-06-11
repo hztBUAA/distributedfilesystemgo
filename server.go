@@ -47,7 +47,7 @@ func NewFileServer(opts FileServerOpts) *FileServer {
 	if len(opts.ID) == 0 {
 		opts.ID = generateID()
 	}
-
+	// fmt.Printf("[%s] serving file (%s) from local disk\n", s.Transport.Addr(), key)
 	return &FileServer{
 		FileServerOpts: opts,
 		store:          NewStore(storeOpts),
@@ -96,6 +96,7 @@ func (s *FileServer) Get(key string) (io.Reader, error) {
 
 	fmt.Printf("[%s] dont have file (%s) locally, fetching from network...\n", s.Transport.Addr(), key)
 
+	// 这里的ID来源于 文件服务器本身的ID   message会被解析到其他节点中
 	msg := Message{
 		Payload: MessageGetFile{
 			ID:  s.ID,
@@ -140,6 +141,7 @@ func (s *FileServer) Store(key string, r io.Reader) error {
 		return err
 	}
 
+	// 所以这里的ID 运行时  三个服务器都是同一个最后7000端口的ID
 	msg := Message{
 		Payload: MessageStoreFile{
 			ID:   s.ID,
@@ -188,6 +190,7 @@ func (s *FileServer) OnPeer(p p2p.Peer) error {
 	return nil
 }
 
+// s has a bottom layer of transport
 func (s *FileServer) loop() {
 	defer func() {
 		log.Println("file server stopped due to error or user quit action")
@@ -196,7 +199,8 @@ func (s *FileServer) loop() {
 
 	for {
 		select {
-		case rpc := <-s.Transport.Consume():
+		case rpc := <-s.Transport.Consume(): 
+		// firstly decode   then handle the decoded message----
 			var msg Message
 			if err := gob.NewDecoder(bytes.NewReader(rpc.Payload)).Decode(&msg); err != nil {
 				log.Println("decoding error: ", err)
