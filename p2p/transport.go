@@ -4,6 +4,7 @@ import "net"
 
 // Peer is an interface that represents the remote node.
 // send is for send messages to it's Peer from itself(its'Peers should implements the peer)
+// net.Conn is anonymous, and it entitles the Peer to be as a Reader and Writer
 type Peer interface {
 	net.Conn
 	Send([]byte) error
